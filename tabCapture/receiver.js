@@ -137,6 +137,49 @@ function downloadImage() { // convert canvas to downloaded image file
   link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
   link.click();
 }
+const ScreenshotTool = () => {
+  const [canCapture, setCanCapture] = useState(false)
+  const [image, setImage] = useState("")
+  const videoRef = useRef(null)
+
+  const startImagePreview = async () => {
+    const mediaStream = await imagePreview({ videoRef })
+    if (mediaStream) setCanCapture(true)
+  }
+
+  const captureImageInPreview = async () => {
+    setCanCapture(false)
+    const frame = await imageCapture({ videoRef })
+    // we can use the image in an API call to be persisted
+    setImage(frame || "")
+  }
+
+  return (
+    <Fragment>
+      <div>
+        <button disabled={canCapture} onClick={startImagePreview}>
+          Preview
+        </button>
+        <button disabled={!canCapture} onClick={captureImageInPreview}>
+          Capture
+        </button>
+      </div>
+      <div>
+        <div>Preview 🎥</div>
+        <video className="Frame" id="video" ref={videoRef} autoPlay></video>
+      </div>
+      <div>
+        <div>Image 🖼️</div>
+        <img
+          className="Frame"
+          alt="Screen capture will be displayed here"
+          src={image}
+          onClick={() => openImage(image)}
+        ></img>
+      </div>
+    </Fragment>
+  )
+}
 
 
 
