@@ -5,18 +5,13 @@ import numpy as np
 
 def process_sign_language_videos():
     # Paths to the dataset
-    VIDEOS_PATH = 'C:\\Users\\abhir\\helloWorld\\RealTimeObjectDetection\\Tensorflow\\workspace\\dataset'
-    OUTPUT_PATH = 'C:\\Users\\abhir\\helloWorld\\RealTimeObjectDetection\\Tensorflow\\workspace\\images\\collectedImages'
-
+    VIDEOS_PATH = 'C:\\Users\\henry\\OneDrive\\Documents\\VideosHelloWorld'
     # Load the WLASL glossary and instances from JSON file
-    with open('C:\\Users\\abhir\\OneDrive\\Documents\\GitHub\\HelloWorld\\WLASL_v0.3.json', 'r') as f:
+    with open('C:\\Users\\henry\\OneDrive\\Documents\\GitHub\\HelloWorld\\WLASL_v0.3.json', 'r') as f:
         wlasl_data = json.load(f)
 
     # Number of frames to extract per video
-    number_imgs = 25
-
-    # Create output directory if it doesn't exist
-    os.makedirs(OUTPUT_PATH, exist_ok=True)
+    number_imgs = 30
 
     # Initialize lists to store frames and glosses
     frames_list = []
@@ -34,6 +29,7 @@ def process_sign_language_videos():
             cap = cv2.VideoCapture(video_file)
             fps = int(cap.get(cv2.CAP_PROP_FPS))
             sample_rate = fps
+            total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
             img_count = 0
             frame_count = 0
 
@@ -42,12 +38,14 @@ def process_sign_language_videos():
 
             # Loop through frames in the video
             while cap.isOpened() and img_count < number_imgs:
+                print(img_count)
                 ret, frame = cap.read()
                 if not ret:
                     break
 
                 # Sample every nth frame to achieve 1 fps
-                if frame_count % sample_rate == 0:
+                # if frame_count % sample_rate == 0:
+                if int(frame_count / total_frames) % total_frames / 35 == 0:
                     # Resize the frame to 180x120 pixels
                     resized_frame = cv2.resize(frame, (180, 120))
 
@@ -115,6 +113,6 @@ def load_data():
 
     return frames_list, glosses_list
 
+# createFile()
+# process_sign_language_videos()
 load_data()
-
-
