@@ -4,7 +4,7 @@ let imageCapture;
 let grabFrameButton = document.getElementById("grabFrame");
 let canvas = document.getElementById("canvas1");
 
-grabFrameButton.onclick = {grabFrame, downloadFrame};
+grabFrameButton.onclick = grabFrame(true);
 
 // error handler
 function printErrorMessage(message) {
@@ -98,7 +98,7 @@ function analyzeFrame () {
 
 }
 
-function grabFrame() {
+function grabFrame( isDownload ) {
   imageCapture
     .grabFrame()
     .then((imageBitmap) => {
@@ -107,17 +107,16 @@ function grabFrame() {
       canvas.height = imageBitmap.height;
       canvas.getContext("2d").drawImage(imageBitmap, 0, 0);
       canvas.classList.remove("hidden");
+      if (isDownload ) {
+        var link = document.getElementById('link');
+        link.setAttribute('download', 'Frame1.png');
+        link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+        link.click();
+      }
     })
     .catch((error) => {
       console.error("grabFrame() error: ", error);
     });
-}
-
-function downloadFrame() {
-  var link = document.getElementById('link');
-  link.setAttribute('download', 'Frame1.png');
-  link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-  link.click();
 }
 
 
