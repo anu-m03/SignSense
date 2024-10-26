@@ -84,108 +84,32 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
     }
   );
 }
-const imagePreview = async ({ videoRef }) => {
-  try {
-    const videoElem = videoRef.current
-    if (!videoElem) throw Error("Video HTML element not defined")
 
-    videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia()
+let grabFrameButton = document.querySelector("button#grabFrame");
+let canvas = document.querySelector("canvas");
 
-    return videoElem.srcObject
-  } catch (error) {
-    console.error("imagePreview error: " + error)
-  }
+grabFrameButton.onclick = grabFrame;
+
+function grabFrame() {
+  imageCapture
+    .grabFrame()
+    .then((imageBitmap) => {
+      console.log("Grabbed frame:", imageBitmap);
+      canvas.width = imageBitmap.width;
+      canvas.height = imageBitmap.height;
+      canvas.getContext("2d").drawImage(imageBitmap, 0, 0);
+      canvas.classList.remove("hidden");
+    })
+    .catch((error) => {
+      console.error("grabFrame() error: ", error);
+    });
 }
-
-
-const imageCapture = async ({ videoRef }) => {
-  try {
-    const videoElem = videoRef.current
-    if (!videoElem) throw Error("Video HTML element not defined")
-
-    let mediaStream = videoElem.srcObject
-    if (!mediaStream) throw Error("Video MediaStream not defined")
-
-    const track = mediaStream.getVideoTracks()[0]
-    const image = generateImageWithCanvas(track, videoElem)
-    // const image = await generateImageWithImageCapture(mediaStreamTrack);
-
-    mediaStream.getTracks().forEach(track => track.stop())
-
-    return image
-  } catch (error) {
-    console.error("imageCapture error: " + error)
-  }
-}
-
-const generateImageWithCanvas = (track, videoElem) => { // convert mediatrack to canvas
-  const canvas = document.createElement("canvas")
-
-  const { width, height } = track.getSettings()
-  canvas.width = width || 100
-  canvas.height = height || 100
-
-  canvas.getContext("2d")?.drawImage(videoElem, 0, 0)
-  const image = canvas.toDataURL("image/png")
-
-  return image
-}
-
-function downloadImage() { // convert canvas to downloaded image file
-  var link = document.getElementById('link');
-  link.setAttribute('download', 'imageurl.png');
-  link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-  link.click();
-}
-const ScreenshotTool = () => {
-  const [canCapture, setCanCapture] = useState(false)
-  const [image, setImage] = useState("")
-  const videoRef = useRef(null)
-
-  const startImagePreview = async () => {
-    const mediaStream = await imagePreview({ videoRef })
-    if (mediaStream) setCanCapture(true)
-  }
-
-  const captureImageInPreview = async () => {
-    setCanCapture(false)
-    const frame = await imageCapture({ videoRef })
-    // we can use the image in an API call to be persisted
-    setImage(frame || "")
-  }
-
-  return (
-    <Fragment>
-      <div>
-        <button disabled={canCapture} onClick={startImagePreview}>
-          Preview
-        </button>
-        <button disabled={!canCapture} onClick={captureImageInPreview}>
-          Capture
-        </button>
-      </div>
-      <div>
-        <div>Preview 🎥</div>
-        <video className="Frame" id="video" ref={videoRef} autoPlay></video>
-      </div>
-      <div>
-        <div>Image 🖼️</div>
-        <img
-          className="Frame"
-          alt="Screen capture will be displayed here"
-          src={image}
-          onClick={() => openImage(image)}
-        ></img>
-      </div>
-    </Fragment>
-  )
-}
-
 
 
 chrome.runtime.onMessage.addListener(function (request) {
   const { targetTabId, consumerTabId } = request;
   testGetMediaStreamId(targetTabId, consumerTabId);
 });
+
 
 window.addEventListener('beforeunload', shutdownReceiver);
