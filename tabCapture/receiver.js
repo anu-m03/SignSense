@@ -90,8 +90,8 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
   );
 }
 
-let grabFrameButton = document.querySelector("button#grabFrame");
-let canvas = document.querySelector("canvas");
+let grabFrameButton = document.getElementById("grabFrame");
+let canvas = document.getElementById("canvas1");
 
 grabFrameButton.onclick = grabFrame;
 
