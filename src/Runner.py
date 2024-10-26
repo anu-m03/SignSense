@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-import VideoDataset
+import utils
 import CNN_LSTM_Model
 import generateImages
 
@@ -15,7 +15,7 @@ labels_list = [gloss_to_label[gloss] for gloss in glosses_list]  # Convert gloss
 num_classes = len(gloss_to_label)  # Number of unique glosses
 
 # Initialize dataset and DataLoader
-train_dataset = VideoDataset(videos=video_frames_list, labels=labels_list, transform=None)
+train_dataset = utils.VideoDataset(videos=video_frames_list, labels=labels_list, transform=None)
 train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)
 
 # Initialize model, loss function, and optimizer
