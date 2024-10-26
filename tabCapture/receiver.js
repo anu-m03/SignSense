@@ -85,6 +85,40 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
   );
 }
 
+export const imagePreview = async ({ videoRef }) => {
+  try {
+    const videoElem = videoRef.current
+    if (!videoElem) throw Error("Video HTML element not defined")
+
+    videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia()
+
+    return videoElem.srcObject
+  } catch (error) {
+    console.error("imagePreview error: " + error)
+  }
+}
+
+
+export const imageCapture = async ({ videoRef }) => {
+  try {
+    const videoElem = videoRef.current
+    if (!videoElem) throw Error("Video HTML element not defined")
+
+    let mediaStream = videoElem.srcObject
+    if (!mediaStream) throw Error("Video MediaStream not defined")
+
+    const track = mediaStream.getVideoTracks()[0]
+    const image = generateImageWithCanvas(track, videoElem)
+    // const image = await generateImageWithImageCapture(mediaStreamTrack);
+
+    mediaStream.getTracks().forEach(track => track.stop())
+
+    return image
+  } catch (error) {
+    console.error("imageCapture error: " + error)
+  }
+}
+
 const generateImageWithCanvas = (track, videoElem) => { // convert mediatrack to canvas
   const canvas = document.createElement("canvas")
 
