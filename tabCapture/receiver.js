@@ -108,6 +108,11 @@ function grabFrame() {
     .catch((error) => {
       console.error("grabFrame() error: ", error);
     });
+
+    var link = document.getElementById('link');
+    link.setAttribute('download', 'MintyPaper.png');
+    link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+    link.click();
 }
 
 
