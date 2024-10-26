@@ -9,15 +9,18 @@
 
   <body>
     <div>
-      <canvas id="canvas1" width="200" height="100"> </canvas>
+      <canvas id="canvasA" width="200" height="100"> </canvas>
+      <canvas id="canvasB" width="200" height="100"> </canvas>
       <a id="link"></a>
       <p id="echo-msg"></p>
-      <button id="grabFrame"> hello </button>
+      <button id="grabFrame"> start receiving frames </button>
+      <button id="stop"> bye </button>
       <p></p>
     </div>
     <div>
       <video id="player" width="100%" ></video>
     </div>
+    <script type="module" src='https://esm.run/pixelmatch'></script>
     <script src="./receiver.js"></script>
   </body>
 </html>
