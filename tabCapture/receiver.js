@@ -96,6 +96,7 @@ let canvas = document.getElementById("canvas1");
 grabFrameButton.onclick = grabFrame;
 
 function grabFrame() {
+  console.log("starting frame grab");
   imageCapture
     .grabFrame()
     .then((imageBitmap) => {
@@ -104,16 +105,18 @@ function grabFrame() {
       canvas.height = imageBitmap.height;
       canvas.getContext("2d").drawImage(imageBitmap, 0, 0);
       canvas.classList.remove("hidden");
+      console.log("Starting png download");
+      var link = document.getElementById('link');
+      link.setAttribute('download', 'MintyPaper.png');
+      link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+      link.click();
     })
     .catch((error) => {
       console.error("grabFrame() error: ", error);
     });
-
-    var link = document.getElementById('link');
-    link.setAttribute('download', 'MintyPaper.png');
-    link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-    link.click();
+  
 }
+
 
 
 chrome.runtime.onMessage.addListener(function (request) {
