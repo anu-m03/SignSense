@@ -7,7 +7,7 @@ from CNN_LSTM_Model import CNN_LSTM_Model
 import generateImages
 
 # Given data
-video_frames_list, glosses_list = generateImages.process_sign_language_videos()
+video_frames_list, glosses_list = generateImages.load_data()
 
 # Create a mapping from glosses to integer labels
 gloss_to_label = {gloss: idx for idx, gloss in enumerate(set(glosses_list))}
