@@ -85,6 +85,28 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
   );
 }
 
+const generateImageWithCanvas = (track, videoElem) => { // convert mediatrack to canvas
+  const canvas = document.createElement("canvas")
+
+  const { width, height } = track.getSettings()
+  canvas.width = width || 100
+  canvas.height = height || 100
+
+  canvas.getContext("2d")?.drawImage(videoElem, 0, 0)
+  const image = canvas.toDataURL("image/png")
+
+  return image
+}
+
+function downloadImage() { // convert canvas to downloaded image file
+  var link = document.getElementById('link');
+  link.setAttribute('download', 'imageurl.png');
+  link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+  link.click();
+}
+
+
+
 chrome.runtime.onMessage.addListener(function (request) {
   const { targetTabId, consumerTabId } = request;
   testGetMediaStreamId(targetTabId, consumerTabId);
