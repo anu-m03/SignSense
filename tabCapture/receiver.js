@@ -4,7 +4,7 @@ let imageCapture;
 let grabFrameButton = document.getElementById("grabFrame");
 let canvas = document.getElementById("canvas1");
 
-grabFrameButton.onclick = grabFrame;
+grabFrameButton.onclick = grabFrame1;
 
 // error handler
 function printErrorMessage(message) {
@@ -96,7 +96,7 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
 
 
 
-function grabFrame() {
+function grabFrame1() {
   imageCapture
     .grabFrame()
     .then((imageBitmap) => {
@@ -105,7 +105,7 @@ function grabFrame() {
       canvas.height = imageBitmap.height;
       canvas.getContext("2d").drawImage(imageBitmap, 0, 0);
       canvas.classList.remove("hidden");
-      
+
       var link = document.getElementById('link');
       link.setAttribute('download', 'Frame1.png');
       link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
