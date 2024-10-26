@@ -1,5 +1,6 @@
 // stream object
 let currentStream = null;
+let imageCapture;
 
 // error handler
 function printErrorMessage(message) {
@@ -7,6 +8,7 @@ function printErrorMessage(message) {
   element.innerText = message;
   console.error(message);
 }
+
 
 // Stop video play-out and stop the MediaStreamTracks.
 function shutdownReceiver() {
@@ -17,6 +19,7 @@ function shutdownReceiver() {
   const player = document.getElementById('player');
   player.srcObject = null;
   const tracks = currentStream.getTracks();
+
   for (let i = 0; i < tracks.length; ++i) {
     tracks[i].stop();
   }
@@ -37,6 +40,8 @@ function playCapturedStream(stream) {
   }
   currentStream = stream;
   const player = document.getElementById('player');
+  const track = currentStream.getVideoTracks()[0];
+  imageCapture = new ImageCapture(track);
   player.addEventListener(
     'canplay',
     function () {
