@@ -1,5 +1,3 @@
-import pixelmatch from 'pixelmatch'
-
 // stream object
 let currentStream = null;
 let imageCapture;
@@ -159,7 +157,7 @@ function analyzeFrame() {
 
       var different = [];
       
-      console.log(pixelmatch(data1, data2, null, 0.0001))
+      //console.log(pixelmatch(data1, data2, null, 0.0001))
 
       if ( different.length > 1 ) {
         console.log(different);
