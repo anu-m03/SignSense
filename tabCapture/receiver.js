@@ -84,8 +84,7 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
     }
   );
 }
-
-export const imagePreview = async ({ videoRef }) => {
+const imagePreview = async ({ videoRef }) => {
   try {
     const videoElem = videoRef.current
     if (!videoElem) throw Error("Video HTML element not defined")
@@ -99,7 +98,7 @@ export const imagePreview = async ({ videoRef }) => {
 }
 
 
-export const imageCapture = async ({ videoRef }) => {
+const imageCapture = async ({ videoRef }) => {
   try {
     const videoElem = videoRef.current
     if (!videoElem) throw Error("Video HTML element not defined")
