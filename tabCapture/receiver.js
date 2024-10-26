@@ -4,7 +4,7 @@ let imageCapture;
 let grabFrameButton = document.getElementById("grabFrame");
 let canvas = document.getElementById("canvas1");
 
-grabFrameButton.onclick = grabFrame;
+grabFrameButton.onclick = {grabFrame, downloadFrame};
 
 // error handler
 function printErrorMessage(message) {
@@ -94,7 +94,9 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
   );
 }
 
+function analyzeFrame () {
 
+}
 
 function grabFrame() {
   imageCapture
@@ -109,10 +111,13 @@ function grabFrame() {
     .catch((error) => {
       console.error("grabFrame() error: ", error);
     });
+}
 
-    var link = document.getElementById('link');
-    link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-    link.click();
+function downloadFrame() {
+  var link = document.getElementById('link');
+  link.setAttribute('download', 'Frame1.png');
+  link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+  link.click();
 }
 
 
