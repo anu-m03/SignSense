@@ -5,15 +5,15 @@ import numpy as np
 
 def process_sign_language_videos():
     # Paths to the dataset
-    VIDEOS_PATH = 'C:\\Users\\abhir\\helloWorld\\RealTimeObjectDetection\\Tensorflow\\workspace\\video-dataset'
+    VIDEOS_PATH = 'C:\\Users\\abhir\\helloWorld\\RealTimeObjectDetection\\Tensorflow\\workspace\\dataset'
     OUTPUT_PATH = 'C:\\Users\\abhir\\helloWorld\\RealTimeObjectDetection\\Tensorflow\\workspace\\images\\collectedImages'
 
     # Load the WLASL glossary and instances from JSON file
-    with open('C:\\Users\\abhir\\helloWorld\\RealTimeObjectDetection\\Tensorflow\\scripts\\WLASL_v0.3.json', 'r') as f:
+    with open('C:\\Users\\abhir\\OneDrive\\Documents\\GitHub\\HelloWorld\\WLASL_v0.3.json', 'r') as f:
         wlasl_data = json.load(f)
 
     # Number of frames to extract per video
-    number_imgs = 60
+    number_imgs = 25
 
     # Create output directory if it doesn't exist
     os.makedirs(OUTPUT_PATH, exist_ok=True)
@@ -29,14 +29,11 @@ def process_sign_language_videos():
             video_id = instance['video_id']
             video_file = os.path.join(VIDEOS_PATH, f"{video_id}.mp4")
             if not os.path.isfile(video_file):
-                print(f"Video file {video_file} not found, skipping.")
                 continue
 
             cap = cv2.VideoCapture(video_file)
             fps = int(cap.get(cv2.CAP_PROP_FPS))
             sample_rate = fps
-
-            print(f"Collecting frames from video_id {video_id}")
             img_count = 0
             frame_count = 0
 
@@ -69,12 +66,55 @@ def process_sign_language_videos():
             frames_list.append(np.array(video_frames))
             glosses_list.append(gloss)
 
-    print("Data collection complete.")
+    # Structure of the Output
+    # - List of lists of frames: [[all frames of video1], [all frames of video2], ...]
+    # - List of glosses: [glossOfVideo1, glossOfVideo2, ...]
+
     return frames_list, glosses_list
 
-# Store the output
-frames_data, glosses_data = process_sign_language_videos()
+def createFile():
 
-# Structure of the Output
-# - List of lists of frames: [[all frames of video1], [all frames of video2], ...]
-# - List of glosses: [glossOfVideo1, glossOfVideo2, ...]
+    # Call the function to process the videos
+    frames_list, glosses_list = process_sign_language_videos()
+
+    # Save frames_list to one .npz file
+    np.savez("frames_data.npz", *frames_list)
+
+    # Save glosses_list to another .npz file
+    with open('glosses_data.txt', 'w') as f:
+        for line in glosses_list:
+            f.write(line + '\n')
+
+def load_data():
+    frame_numpy_dict = np.load("frames_data.npz")
+    print(frame_numpy_dict)
+
+    frames_list = []
+    glosses_list = []
+
+    keys = frame_numpy_dict.files
+    
+    for key in keys:
+        frames_list.append(frame_numpy_dict[key])
+
+    with open('glosses_data.txt', 'r') as file:
+        glosses_list = file.readlines()
+    glosses_list = [line.strip() for line in glosses_list]
+
+    # print(frames_list, glosses_list)
+    # print(len(frames_list), len(glosses_list))
+
+    print("Arrays in the .npz file:")
+
+    for array_name in frame_numpy_dict.files:
+        # print(array_name)
+        # print(frame_numpy_dict[array_name])  # This will print the entire array
+
+        # Optional: Print the shape of each array
+        print(f"Shape of {array_name}: {frame_numpy_dict[array_name].shape}")
+
+    return frames_list, glosses_list
+
+load_data()
+
+
