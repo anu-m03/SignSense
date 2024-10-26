@@ -2,7 +2,8 @@
 let currentStream = null;
 let imageCapture;
 let grabFrameButton = document.getElementById("grabFrame");
-let canvas = document.getElementById("canvas1");
+let canvasA = document.getElementById("canvasA");
+let canvasB = document.getElementById("canvasB");
 
 grabFrameButton.onclick = grabFrame1;
 
@@ -94,22 +95,58 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
   );
 }
 
+function analyzeFrame(canvas1, canvas2) {
+  var data1 = canvas1.getImageData
 
+  var different = [];
 
+  for (var y=0; y<img1.height; y++){
+      for (var x=0; x<img1.width; i++){
+          var pos = (x * 4) + (y * (img.width * 4));
+          for (var i=0; i<4; i++){
+              if (data1[pos + i] != data2[pos + i]){
+                different.push({x: x, y: y});
+              }
+          }
+      }
+  }
+}
+
+// grabFrame with download
 function grabFrame1() {
   imageCapture
     .grabFrame()
     .then((imageBitmap) => {
       console.log("Grabbed frame:", imageBitmap);
-      canvas.width = imageBitmap.width;
-      canvas.height = imageBitmap.height;
-      canvas.getContext("2d").drawImage(imageBitmap, 0, 0);
-      canvas.classList.remove("hidden");
+      canvasA.width = imageBitmap.width;
+      canvasA.height = imageBitmap.height;
+      canvasA.getContext("2d").drawImage(imageBitmap, 0, 0);
+      canvasA.classList.remove("hidden");
 
       var link = document.getElementById('link');
       link.setAttribute('download', 'Frame1.png');
-      link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+      link.setAttribute('href', canvasA.toDataURL("image/png").replace("image/png", "image/octet-stream"));
       link.click();
+    })
+    .catch((error) => {
+      console.error("grabFrame() error: ", error);
+    });
+}
+
+function grabFrame2() {
+  imageCapture
+    .grabFrame()
+    .then((imageBitmap) => {
+      console.log("Grabbed frame:", imageBitmap);
+      canvasA.width = imageBitmap.width;
+      canvasA.height = imageBitmap.height;
+      canvasA.getContext("2d").drawImage(imageBitmap, 0, 0);
+      canvasA.classList.remove("hidden");
+
+      
+
+      analyzeFrame()
+
     })
     .catch((error) => {
       console.error("grabFrame() error: ", error);
