@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 import utils
-import CNN_LSTM_Model
+from CNN_LSTM_Model import CNN_LSTM_Model
 import generateImages
 
 # Given data
