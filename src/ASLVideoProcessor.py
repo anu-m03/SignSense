@@ -47,9 +47,9 @@ class ASLVideoProcessor:
         return model, label_to_gloss
 
     def preprocess_frames(self, frames):
-        print("\nProcessing Frames...\n")
+        # print("\nProcessing Frames...\n")
         frames_tensor = torch.from_numpy(frames).float() / 255.0  # Normalize to [0, 1]
-        print("Shape of frames_tensor before permute:", frames_tensor.shape)
+        #print("Shape of frames_tensor before permute:", frames_tensor.shape)
         frames_tensor = frames_tensor.permute(3, 0, 1, 2)  # Change to (channels, num_frames, height, width)
         frames_tensor = frames_tensor.unsqueeze(0)  # Add batch dimension
         return frames_tensor
@@ -58,7 +58,7 @@ class ASLVideoProcessor:
         frames_tensor = self.preprocess_frames(frames)
         with torch.no_grad():
             outputs = self.model(frames_tensor)
-            print("Model outputs (logits):", outputs)
+            # print("Model outputs (logits):", outputs)
             _, predicted = torch.max(outputs, 1)
     
         predicted_gloss = self.label_to_gloss[predicted.item()]
@@ -94,9 +94,9 @@ def upload_image():
     image_file = request.files['image']
     save_path = os.path.join(UPLOAD_FOLDER, "received_image.png")
     image_file.save(save_path)
-    print(f"Image saved to {save_path}")
+    # print(f"Image saved to {save_path}")
     
-    return jsonify({'message': 'Image saved successfully!'}), 200
+    # return jsonify({'message': 'Image saved successfully!'}), 200
 
 def run_flask_app():
     app.run(debug=True)
@@ -117,3 +117,20 @@ if __name__ == "__main__":
 
     # Start the infinite loop to process images
     asl_video_processor.run_infinite_loop()
+
+def process_folder_images(self, folder_path):
+    video_frames = []
+    for filename in sorted(os.listdir(folder_path)):
+        if filename.endswith(('.png', '.jpg', '.jpeg')):
+            image_path = os.path.join(folder_path, filename)
+            frame = cv2.imread(image_path)
+            if frame is not None:
+                resized_frame = cv2.resize(frame, (180, 120))
+                video_frames.append(resized_frame)
+                
+                if len(video_frames) == self.number_imgs:
+                    frames_array = np.array(video_frames)
+                    predicted_sign = self.predict_sign(frames_array)
+                    print(f"The predicted ASL sign is: {predicted_sign}")
+                    video_frames.clear()
+    return video_frames
