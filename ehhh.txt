@@ -1,15 +1,3 @@
-please
-sorry
-yes
-no
-maybe
-help
-more
-eat
-drink
-water
-food
-friend
 family
 mother
 father
