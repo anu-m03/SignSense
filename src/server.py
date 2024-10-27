@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
     # Get the JSON data
-    data = request.json
+    data = request.form.get('data')
     
     # Ensure image data is provided
     if 'image' not in data:
