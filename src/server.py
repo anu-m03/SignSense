@@ -1,31 +1,37 @@
 from flask import Flask, request, jsonify
-import numpy as np
-import io
 import base64
+import numpy as np
 from PIL import Image
+from io import BytesIO
 
 app = Flask(__name__)
 
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
-    # Get image data from the request
-    data = request.json  # Assuming JSON payload
-    image_data = data['image']  # Base64 or raw image data
+    # Get the JSON data
+    data = request.json
+    
+    # Ensure image data is provided
+    if 'image' not in data:
+        return jsonify({'error': 'No image data found'}), 400
+    
+    # Get the base64 image string
+    image_b64 = data['image']
+    
+    # Convert Base64 string to a NumPy array
+    np_image = convert_base64_to_uint8(image_b64)
+    
+    # For example purposes, we can return the shape of the array
+    return jsonify({'shape': np_image.shape})
 
-    # If image data is base64, decode it
-    if image_data.startswith('data:image/png;base64,'):
-        image_data = image_data.split(',')[1]  # Strip off the prefix
-        image_data = io.BytesIO(base64.b64decode(image_data))
-
-    # Convert image data to PIL Image
-    image = Image.open(image_data)
-
-    # Convert image to uint8 numpy array
-    image_array = np.array(image, dtype=np.uint8)
-
-    # You can now process the image_array as needed
-
-    return jsonify({"status": "success", "message": "Image processed"})
+def convert_base64_to_uint8(image_b64):
+    # Decode the Base64 string
+    image_data = base64.b64decode(image_b64.split(',')[1])  # Split at comma if it contains data type prefix
+    image = Image.open(BytesIO(image_data)).convert('RGB')
+    
+    # Convert image to NumPy array
+    np_image = np.array(image, dtype=np.uint8)
+    return np_image
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -20,4 +20,3 @@ file_path = 'path/to/your/file.html'  # Replace with the actual file path
 with open(file_path, 'r', encoding='utf-8') as file:
     html_content = file.read()
 
-
