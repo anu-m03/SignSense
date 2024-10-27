@@ -28,18 +28,17 @@ val_loader = DataLoader(val_dataset, batch_size=4, shuffle=False)
 # Initialize model, loss function, and optimizer
 model = CNN_LSTM_Model(num_classes)
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.0001)
+optimizer = optim.Adam(model.parameters(), lr=0.0001)  # Normal learning rate without scheduler
 
 # Set device to GPU if available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-# Initialize the learning rate scheduler
-# Initialize the learning rate scheduler
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=3)
+# Uncomment to initialize the learning rate scheduler
+# scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.7, patience=5)
 
 # Training Loop
-num_epochs = 10
+num_epochs = 100
 print("Start Training:")
 for epoch in range(num_epochs):
     model.train()
@@ -80,12 +79,13 @@ for epoch in range(num_epochs):
     avg_val_loss = val_loss / len(val_loader)
     print(f"Validation Loss: {avg_val_loss:.4f}")
 
-    # Step the scheduler based on validation loss
-    scheduler.step(avg_val_loss)
+    # Uncomment to step the scheduler based on validation loss
+    # scheduler.step(avg_val_loss)
 
-    # Print the current learning rate
-    current_lr = scheduler.optimizer.param_groups[0]['lr']
-    print(f"Learning Rate: {current_lr:.6f}")
-    
+    # Uncomment to print the current learning rate
+    # current_lr = scheduler.optimizer.param_groups[0]['lr']
+    # print(f"Learning Rate: {current_lr:.6f}")
+
 torch.save(model.state_dict(), 'asl_model.pth')
 print("Training complete!")
+
