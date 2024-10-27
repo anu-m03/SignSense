@@ -141,14 +141,31 @@ function grabFrame1() {
       
       //console.log(canvasA + "in grabframe");
 
-      /*let link = document.getElementById('link');
-      link.setAttribute('download', 'Frame1.png');
-      link.setAttribute('href', canvasA.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-      link.click();*/
+      let image = document.getElementById('passThis');
+      image.setAttribute('download', 'Frame1.png');
+      image.setAttribute('src', canvasA.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+  
     })
     .catch((error) => {
       console.error("grabFrame() error: ", error);
     });
+}
+
+function sendData() {
+  const base64Image = canvasA.toDataUrRL('image/pmg')
+  $.ajax({
+      url: '/upload_image',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ 'image': base64Image}),
+      success: function(response) {
+        console.log("success")  
+        //document.getElementById('output').innerHTML = response.result;
+      },
+      error: function(error) {
+          console.log(error);
+      }
+  });
 }
 
 /*
