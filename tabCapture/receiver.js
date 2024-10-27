@@ -5,6 +5,7 @@ let grabFrameButton = document.getElementById("grabFrame");
 let grabFrameButtonStop = document.getElementById("stop");
 let canvasA = document.getElementById("canvasA");
 let canvasB = document.getElementById("canvasB");
+let subtitles = document.getElementById("captions");
 let isFirst = true;
 
 grabFrameButton.onclick = () => {
@@ -128,6 +129,8 @@ function grabFrame1() {
       
       //console.log("finished");
       canvasA.classList.remove("hidden");
+
+      subtitles.textContent += "\n etc etc";
       
       //console.log(canvasA + "in grabframe");
 
