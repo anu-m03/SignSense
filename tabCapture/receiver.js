@@ -12,7 +12,7 @@ grabFrameButton.onclick = () => {
   if ( isFirst ) {
     grabFrame1()
     //isFirst = false;
-    renderInterval = setInterval(grabFrame1, 1000);
+    renderInterval = setInterval(async function() {await grabFrame1(); sendData()}, 1000);
     
   } else {
     
@@ -20,7 +20,6 @@ grabFrameButton.onclick = () => {
 }
 
 grabFrameButtonStop.onclick = () => {
-  sendData()
   console.log("stopped");
   clearInterval(renderInterval);
   renderInterval = null;
@@ -117,7 +116,7 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
 
 
 // grabFrame with download
-function grabFrame1() {
+async function grabFrame1() {
   imageCapture
     .grabFrame()
     .then((imageBitmap) => {
