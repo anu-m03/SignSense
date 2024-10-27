@@ -11,7 +11,7 @@ let isFirst = true;
 grabFrameButton.onclick = () => {
   if ( isFirst ) {
     //isFirst = false;
-    renderInterval = setInterval(analyzeFrame, 1000);
+    renderInterval = setInterval(grabFrame1, 1000);
     
   } else {
     
@@ -19,6 +19,7 @@ grabFrameButton.onclick = () => {
 }
 
 grabFrameButtonStop.onclick = () => {
+  console.log("stopped");
   clearInterval(renderInterval);
   renderInterval = null;
 }
