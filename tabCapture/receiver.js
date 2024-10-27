@@ -155,7 +155,7 @@ function grabFrame1() {
 }
 
 function sendData() {
-  const base64Image = canvasA.toDataUrRL('image/pmg')
+  const base64Image = canvasA.toDataURL('image/png')
   $.ajax({
       url: '/upload_image',
       type: 'POST',
