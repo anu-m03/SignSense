@@ -10,7 +10,7 @@ let isFirst = true;
 grabFrameButton.onclick = () => {
   if ( isFirst ) {
     //isFirst = false;
-    renderInterval = setInterval(analyzeFrame, 6000);
+    renderInterval = setInterval(analyzeFrame, 1000);
     
   } else {
     
@@ -141,7 +141,7 @@ function grabFrame1() {
     });
 }
 
-
+/*
 function analyzeFrame() {
     grabFrame1();
     console.log(canvasA)
@@ -165,7 +165,7 @@ function analyzeFrame() {
     }, 2000);
     
     
-}
+} */
 
 
 
