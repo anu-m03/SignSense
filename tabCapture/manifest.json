@@ -10,5 +10,9 @@
   "background": {
     "service_worker": "service-worker.js"
   },
-  "permissions": ["tabs", "tabCapture"]
+  "permissions": ["tabs", "tabCapture"],
+  "content_scripts": [{
+    "js": ["jquery.min.js", "receiver.js"],
+    "matches": ["http://*/*", "https://*/*"]
+  }]
 }
