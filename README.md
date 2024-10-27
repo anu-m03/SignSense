@@ -4,10 +4,13 @@
 
 This project implements an American Sign Language (ASL) to text converter that leverages video frame extraction and classification to recognize ASL glosses and convert them into text. The converter uses a combination of CNN (Convolutional Neural Network) layers for spatial feature extraction and an LSTM (Long Short-Term Memory) network for temporal sequence learning, processing video frames to recognize ASL signs with high accuracy.
 
-Key features of this project include:
-- Frame-by-frame processing and spatial feature extraction from video inputs
-- Sequential learning with LSTM for temporal consistency across ASL video frames
-- End-to-end training for ASL recognition and text output
+### Innovative Elements:
+
+- Frame-by-Frame Processing: Real-time feature extraction enables accurate spatial recognition of hand gestures.
+- Temporal Consistency: The LSTM module preserves temporal order, ensuring gesture sequences are accurately interpreted across video frames.
+- Applications Beyond Translation: From assistive devices to educational tools, this model provides real-time transcription support and has potential for bi-directional communication when combined with speech recognition.
+
+The ASL to Text Converter holds promise for improving accessibility in everyday communication and education, with future potential to support multi-language translation and real-time ASL recognition in various environments.
 
 ---
 
