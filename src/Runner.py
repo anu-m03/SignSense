@@ -21,14 +21,14 @@ train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)
 # Initialize model, loss function, and optimizer
 model = CNN_LSTM_Model(num_classes)
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=0.0007)
 
 # Set device to GPU if available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Training Loop
-num_epochs = 10
+num_epochs = 100
 for epoch in range(num_epochs):
     model.train()
     running_loss = 0.0
