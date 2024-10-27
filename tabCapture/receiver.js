@@ -22,9 +22,10 @@ grabFrameButton.onclick = () => {
 }
 
 grabFrameButtonStop.onclick = () => {
+  sendData()
   console.log("stopped");
-  clearInterval(renderInterval);
-  renderInterval = null;
+  //clearInterval(renderInterval);
+  //renderInterval = null;
 }
 
 // error handler
@@ -146,7 +147,6 @@ function grabFrame1() {
       image.setAttribute('download', 'Frame1.png');
       image.setAttribute('src', canvasA.toDataURL("image/png").replace("image/png", "image/octet-stream"));
 
-      sendData()
   
     })
     .catch((error) => {
@@ -155,10 +155,14 @@ function grabFrame1() {
 }
 
 async function sendData() {
-  const base64Image = canvasA.toDataURL('image/png')
+  const image = canvasA.toDataURL('image/png')
+
+    // Convert base64 image data to a Blob
+    const response = await fetch(image);
+    const blob = await response.blob();
 
   const formattedData = new FormData();
-  formattedData.append('data', JSON.stringify({ 'image': base64Image }));
+  formattedData.append('image', blob, 'captured_frame.png');
 
   // Make the AJAX request
   $.ajax({
@@ -168,7 +172,10 @@ async function sendData() {
       processData: false, // Prevent jQuery from automatically transforming the data into a query string
       contentType: false, // Prevent jQuery from setting Content-Type, since FormData will do it
       success: function(response) {
-          console.log("Success:", response);
+        const imageUrl = URL.createObjectURL(response)
+
+        document.getElementById('passThis').setAttribute('src', imageUrl)
+        console.log("Success:", response);
       },
       error: function(error){
           console.log(error);
