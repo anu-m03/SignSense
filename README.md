@@ -14,14 +14,14 @@ The ASL to Text Converter holds promise for improving accessibility in everyday 
 
 ---
 
-## Built With
+### Built With
+- **OpenCV**: For video processing, resizing, and frame extraction
+- **NumPy**: For handling and storing frame arrays
+- **PyTorch**: For building the CNN and LSTM networks
+- **Flask**: For the web interface to upload images and receive ASL predictions
+- **Flask-CORS**: To enable CORS in the Flask API for cross-origin requests
+- **JSON**: For loading WLASL gloss data
 
-This project utilizes several Python libraries and frameworks:
-- **OpenCV** for video processing
-- **NumPy** for data handling and matrix operations
-- **PyTorch** for deep learning (CNN and LSTM networks)
-- **JSON** for loading ASL gloss data
-  
 ---
 
 ## Applications
@@ -43,35 +43,13 @@ This project utilizes several Python libraries and frameworks:
 Follow these instructions to set up and run the project on your local machine.
 
 ### Prerequisites
-
-- **Python 3.x**: Ensure Python is installed on your system.
-- **OpenCV**: Install using `pip install opencv-python`
-- **PyTorch**: Install the appropriate PyTorch version from [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)
-- **NumPy**: Install with `pip install numpy`
-
-### Installation
-
-1. **Clone the Repository**  
-   ```
-   git clone https://github.com/your_username/ASL_Text_Converter.git
-   cd ASL_Text_Converter
-   ```
-
-2. **Set up the WLASL Dataset**  
-   Download the WLASL dataset and place it in the specified path:
-   ```bash
-   VIDEOS_PATH = 'C:\\Users\\abhir\\helloWorld\\RealTimeObjectDetection\\Tensorflow\\workspace\\dataset'
-   ```
-
-3. **Load Gloss Data**  
-   Place the `WLASL_v0.3.json` file in the repository to access gloss information:
-   ```bash
-   with open('C:\\Users\\abhir\\OneDrive\\Documents\\GitHub\\HelloWorld\\WLASL_v0.3.json', 'r') as f:
-       wlasl_data = json.load(f)
-   ```
-
-4. **Prepare Data for Training**  
-   Run `createFile()` in the code to preprocess and save video frames and gloss data into `.npz` and `.txt` files.
+- Python 3.x: Ensure Python is installed on your system.
+- OpenCV: Install using `pip install opencv-python`
+- NumPy: Install with `pip install numpy`
+- PyTorch: Install the appropriate PyTorch version from https://pytorch.org/get-started/locally/
+- Flask: Install with `pip install Flask`
+- Flask-CORS: Install with `pip install Flask-CORS`
+- JSON: Included in the Python Standard Library (used for loading ASL gloss data)
 
 ---
 
@@ -100,15 +78,19 @@ Upon successful training, the model outputs predicted glosses corresponding to A
 
 ## Roadmap
 
-- Add support for additional sign languages
-- Implement real-time ASL detection and conversion
-- Add multi-language text output
+- **Additional Sign Language Support**: Extend functionality to recognize more sign languages beyond ASL.
+- **Enhanced Real-Time Processing**: Optimize the model for faster processing to achieve real-time ASL recognition and conversion.
+- **Bi-Directional Communication**: Integrate a speech-to-sign component for fluid two-way communication.
+- **Multi-Language Output**: Enable the model to translate ASL glosses into various spoken languages, broadening its accessibility.
+- **Mobile and Web Integration**: Adapt the model for use on mobile devices and web applications, expanding its reach and practical usage.
 
 ---
 
 ## Acknowledgments
 
 Special thanks to resources that made this project possible:
-- [WLASL Dataset](https://example.com)
-- [PyTorch Documentation](https://pytorch.org/docs/stable/index.html)
-- [OpenCV Documentation](https://docs.opencv.org/master/)
+
+- [WLASL Dataset](https://dxli94.github.io/WLASL/): For providing the video dataset of ASL glosses used to train and validate the model.
+- [PyTorch Documentation](https://pytorch.org/docs/stable/index.html): For offering extensive resources and tools for deep learning model development.
+- [OpenCV Documentation](https://docs.opencv.org/master/): For guidance on using computer vision techniques for video frame processing.
+- [Flask Documentation](https://flask.palletsprojects.com/): For facilitating the API setup to enable ASL translation in real-time applications.
