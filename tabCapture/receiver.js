@@ -12,8 +12,9 @@ let isFirst = true;
 
 grabFrameButton.onclick = () => {
   if ( isFirst ) {
+    grabFrame1()
     //isFirst = false;
-    renderInterval = setInterval(grabFrame1, 1000);
+    //renderInterval = setInterval(grabFrame1, 1000);
     
   } else {
     
@@ -144,6 +145,8 @@ function grabFrame1() {
       let image = document.getElementById('passThis');
       image.setAttribute('download', 'Frame1.png');
       image.setAttribute('src', canvasA.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+
+      sendData()
   
     })
     .catch((error) => {
