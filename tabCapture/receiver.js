@@ -12,7 +12,7 @@ grabFrameButton.onclick = () => {
   if ( isFirst ) {
     grabFrame1()
     //isFirst = false;
-    renderInterval = setInterval(async function() {await grabFrame1(); sendData()}, 1000);
+    renderInterval = setInterval(async function() {await grabFrame1(); sendData()}, 300);
     
   } else {
     

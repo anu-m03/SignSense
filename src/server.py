@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import os
-=======
 # from flask import Flask, request, jsonify, send_file
 # from flask_cors import CORS
 # import base64
 # import os
->>>>>>> 4e3b8f55d2c5ea326934e974a9460c42bd947396
 
 
 # app = Flask(__name__)
