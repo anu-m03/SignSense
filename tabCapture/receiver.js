@@ -154,26 +154,41 @@ function grabFrame1() {
     });
 }
 
-function sendData() {
-  const base64Image = canvasA.toDataURL('image/pmg')
-  let response = fetch( "http://127.0.0.1:5000/upload_image", {
-      //url: '/upload_image',
-      method: 'POST',
-      data: JSON.stringify({ 'image': base64Image}),
-      headers: {
-        'Accept': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:3000',
-        'Access-Control-Allow-Credentials': 'true'
+async function sendData() {
+  try{
+    const base64Image = canvasA.toDataURL('image/png')
 
-      },
-      success: function(response) {
-        console.log("success")  
-        //document.getElementById('output').innerHTML = response.result;
-      },
-      error: function(error) {
-          console.log(error);
-      }
-  });
+    const formattedData = new formattedData();
+    formattedData.append('data', JSON.stringify({ 'image': base64Image}));
+    let response = await fetch( "http://127.0.0.1:5000/upload_image", {
+        //url: '/upload_image',
+        method: 'POST',
+        body: formattedData,
+        headers: {
+          'Accept': 'application/json',
+
+        },
+        // success: function(response) {
+        //   console.log("success")  
+        //   //document.getElementById('output').innerHTML = response.result;
+        // },
+        // error: function(error) {
+        //     console.log(error);
+        // }
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("Success:", result);
+      // Optionally, handle the result here
+      // document.getElementById('output').innerHTML = result.shape;
+    } else {
+        const error = await response.json();
+        console.error("Error uploading image:", error);
+    }
+  } catch (error) {
+  console.error("Fetch error:", error);
+  }
 }
 
 /*
