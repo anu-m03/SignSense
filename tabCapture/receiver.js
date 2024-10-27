@@ -6,6 +6,8 @@ let grabFrameButtonStop = document.getElementById("stop");
 let canvasA = document.getElementById("canvasA");
 let canvasB = document.getElementById("canvasB");
 let subtitles = document.getElementById("captions");
+const newDiv = document.createElement("div");
+let lastDiv = document.getElementById("test");
 let isFirst = true;
 
 grabFrameButton.onclick = () => {
@@ -130,8 +132,12 @@ function grabFrame1() {
       
       //console.log("finished");
       canvasA.classList.remove("hidden");
-
-      subtitles.textContent += "\n etc etc";
+      const newDiv = document.createElement("div");
+      const newContent = document.createTextNode("etc etc ");
+      newDiv.appendChild(newContent);
+      
+      document.body.insertBefore(newDiv, lastDiv.nextSibling);
+      lastDiv = newDiv;
       
       //console.log(canvasA + "in grabframe");
 
