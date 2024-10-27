@@ -160,6 +160,12 @@ function sendData() {
       //url: '/upload_image',
       method: 'POST',
       data: JSON.stringify({ 'image': base64Image}),
+      headers: {
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:3000',
+        'Access-Control-Allow-Credentials': 'true'
+
+      },
       success: function(response) {
         console.log("success")  
         //document.getElementById('output').innerHTML = response.result;
