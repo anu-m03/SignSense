@@ -40,7 +40,9 @@ function shutdownReceiver() {
   }
 
   const player = document.getElementById('player');
-  player.srcObject = null;
+  if (player != null) {
+    player.srcObject = null;
+  }
   const tracks = currentStream.getTracks();
 
   for (let i = 0; i < tracks.length; ++i) {
@@ -65,20 +67,24 @@ function playCapturedStream(stream) {
   const player = document.getElementById('player');
   const track = currentStream.getVideoTracks()[0];
   imageCapture = new ImageCapture(track);
-  player.addEventListener(
-    'canplay',
-    function () {
-      this.volume = 0.75;
-      this.muted = false;
-      this.play();
-      console.log("100");
-    },
-    {
-      once: true
-    }
-  );
-  player.setAttribute('controls', '1');
-  player.srcObject = stream;
+  if (player != null) {
+    player.addEventListener(
+      'canplay',
+      function () {
+        this.volume = 0.75;
+        this.muted = false;
+        this.play();
+        console.log("100");
+      },
+      {
+        once: true
+      }
+    );
+    player.setAttribute('controls', '1');
+    player.srcObject = stream;
+  } else {
+    console.log("hello")
+  }
 }
 
 function testGetMediaStreamId(targetTabId, consumerTabId) {
@@ -168,9 +174,7 @@ async function sendData() {
       processData: false, // Prevent jQuery from automatically transforming the data into a query string
       contentType: false, // Prevent jQuery from setting Content-Type, since FormData will do it
       success: function(response) {
-        const imageUrl = URL.createObjectURL(response)
 
-        document.getElementById('passThis').setAttribute('src', imageUrl)
         console.log("Success:", response);
       },
       error: function(error){
