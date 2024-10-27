@@ -12,7 +12,7 @@ grabFrameButton.onclick = () => {
   if ( isFirst ) {
     grabFrame1()
     //isFirst = false;
-    //renderInterval = setInterval(grabFrame1, 1000);
+    renderInterval = setInterval(grabFrame1, 1000);
     
   } else {
     
@@ -22,8 +22,8 @@ grabFrameButton.onclick = () => {
 grabFrameButtonStop.onclick = () => {
   sendData()
   console.log("stopped");
-  //clearInterval(renderInterval);
-  //renderInterval = null;
+  clearInterval(renderInterval);
+  renderInterval = null;
 }
 
 // error handler
