@@ -4,8 +4,6 @@ let imageCapture;
 let grabFrameButton = document.getElementById("grabFrame");
 let grabFrameButtonStop = document.getElementById("stop");
 let canvasA = document.getElementById("canvasA");
-let canvasB = document.getElementById("canvasB");
-let subtitles = document.getElementById("captions");
 const newDiv = document.createElement("div");
 let lastDiv = document.getElementById("test");
 let isFirst = true;
@@ -133,8 +131,7 @@ function grabFrame1() {
       canvasA.getContext("2d").drawImage(imageBitmap, 0, 0);
       
       //console.log("finished");
-      canvasA.classList.remove("hidden");
-      const newDiv = document.createElement("div");
+      const newDiv = document.createElement("p");
       const newContent = document.createTextNode("etc etc ");
       newDiv.appendChild(newContent);
       

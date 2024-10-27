@@ -1,28 +1,33 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <style>
+      h1 {color: blue; 
+          font-size: 90; 
+          font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;}
+    </style>
+    </style>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *;**script-src 'self' http://onlineerp.solution.quebec 'unsafe-inline' 'unsafe-eval';** "> -->
+    <h1> Welcome to {insert title}!</h1>
   </head>
 
   <body>
     <div>
-      <canvas id="canvasA" width="200" height="100"> </canvas>
-      <canvas id="canvasB" width="200" height="100"> </canvas>
+      <canvas id="canvasA" width="100%" hidden="hidden"> </canvas>
       <a id="link"></a>
       <p id="echo-msg"></p>
-      <button id="grabFrame"> start receiving frames </button>
-      <button id="stop"> bye </button>
+      <button id="grabFrame"> Start translation! </button>
+      <button id="stop"> Stop translation </button>
       <image id="passThis"></image>
       <p></p>
     </div>
-    <p id="captions"> receiver </p>
-    <div id="test"></div>
-    <div>
+    <div id="test"> Transcription </div>
+    <!-- <div>
       <video id="player" width="100%" ></video>
-    </div>
+    </div> -->
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="jquery.min.js"></script>
     <script src="./receiver.js"></script>

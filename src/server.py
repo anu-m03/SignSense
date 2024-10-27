@@ -25,7 +25,7 @@ def upload_image():
     image_file.save(save_path)
     print(image_file)
     
-    return send_file('uploads', mimetype='image/png'), 200
+    return jsonify({'message': 'image saved successfully!'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
