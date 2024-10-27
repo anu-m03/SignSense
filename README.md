@@ -1,6 +1,6 @@
 # ASL to Text Converter
 
-## About The Project
+## About The Project - SignSense
 
 This project implements an American Sign Language (ASL) to text converter that leverages video frame extraction and classification to recognize ASL glosses and convert them into text. The converter uses a combination of CNN (Convolutional Neural Network) layers for spatial feature extraction and an LSTM (Long Short-Term Memory) network for temporal sequence learning, processing video frames to recognize ASL signs with high accuracy.
 
