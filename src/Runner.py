@@ -13,7 +13,7 @@ video_frames_list, glosses_list = generateImages.load_data()
 gloss_to_label = {gloss: idx for idx, gloss in enumerate(set(glosses_list))}
 labels_list = [gloss_to_label[gloss] for gloss in glosses_list]  # Convert glosses to integer labels
 num_classes = len(gloss_to_label)  # Number of unique glosses
-
+VIDEOS_PATH = 'C:\\Users\\henry\\OneDrive\\Documents\\VideosHelloWorld'
 # Initialize dataset and DataLoader
 train_dataset = utils.VideoDataset(videos=video_frames_list, labels=labels_list, transform=None)
 train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)

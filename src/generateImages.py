@@ -115,4 +115,4 @@ def load_data():
 
 # createFile()
 # process_sign_language_videos()
-load_data()
+# load_data()
