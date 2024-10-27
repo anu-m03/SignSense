@@ -76,7 +76,7 @@ class ASLVideoProcessor:
         video_frames = []
         
         while True:
-            frame = self.process_received_image()
+            frame = self.process_folder_images("src/uploads/")
             if frame is not None:
                 video_frames.append(frame)
                 
@@ -85,6 +85,23 @@ class ASLVideoProcessor:
                     predicted_sign = self.predict_sign(frames_array)
                     print(f"The predicted ASL sign is: {predicted_sign}")
                     video_frames.clear()
+
+    def process_folder_images(self, folder_path):
+        video_frames = []
+        for filename in sorted(os.listdir(folder_path)):
+            if filename.endswith(('.png', '.jpg', '.jpeg')):
+                image_path = os.path.join(folder_path, filename)
+                frame = cv2.imread(image_path)
+                if frame is not None:
+                    resized_frame = cv2.resize(frame, (180, 120))
+                    video_frames.append(resized_frame)
+                    
+                    if len(video_frames) == self.number_imgs:
+                        frames_array = np.array(video_frames)
+                        predicted_sign = self.predict_sign(frames_array)
+                        print(f"The predicted ASL sign is: {predicted_sign}")
+                        video_frames.clear()
+        return video_frames
 
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
@@ -118,19 +135,4 @@ if __name__ == "__main__":
     # Start the infinite loop to process images
     asl_video_processor.run_infinite_loop()
 
-def process_folder_images(self, folder_path):
-    video_frames = []
-    for filename in sorted(os.listdir(folder_path)):
-        if filename.endswith(('.png', '.jpg', '.jpeg')):
-            image_path = os.path.join(folder_path, filename)
-            frame = cv2.imread(image_path)
-            if frame is not None:
-                resized_frame = cv2.resize(frame, (180, 120))
-                video_frames.append(resized_frame)
-                
-                if len(video_frames) == self.number_imgs:
-                    frames_array = np.array(video_frames)
-                    predicted_sign = self.predict_sign(frames_array)
-                    print(f"The predicted ASL sign is: {predicted_sign}")
-                    video_frames.clear()
-    return video_frames
+
