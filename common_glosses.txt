@@ -1,0 +1,10 @@
+hello
+goodbye
+thank you
+please
+sorry
+yes
+no
+maybe
+help
+more
