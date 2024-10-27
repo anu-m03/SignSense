@@ -86,5 +86,6 @@ for epoch in range(num_epochs):
     # Print the current learning rate
     current_lr = scheduler.optimizer.param_groups[0]['lr']
     print(f"Learning Rate: {current_lr:.6f}")
-
+    
+torch.save(model.state_dict(), 'asl_model.pth')
 print("Training complete!")
