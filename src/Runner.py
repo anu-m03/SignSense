@@ -18,24 +18,24 @@ num_classes = len(gloss_to_label)  # Number of unique glosses
 full_dataset = utils.VideoDataset(videos=video_frames_list, labels=labels_list, transform=None)
 
 # Split the dataset into training and validation sets (80% train, 20% val)
-train_size = int(0.8 * len(full_dataset))
+train_size = int(0.9 * len(full_dataset))
 val_size = len(full_dataset) - train_size
 train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
 
-train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=4, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
 # Initialize model, loss function, and optimizer
 model = CNN_LSTM_Model(num_classes)
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.0001)  # Normal learning rate without scheduler
+optimizer = optim.Adam(model.parameters(), lr=0.00055)  # Normal learning rate without scheduler
 
 # Set device to GPU if available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Uncomment to initialize the learning rate scheduler
-# scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.7, patience=5)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.9, patience=5)
 
 # Training Loop
 num_epochs = 100
@@ -80,10 +80,10 @@ for epoch in range(num_epochs):
     print(f"Validation Loss: {avg_val_loss:.4f}")
 
     # Uncomment to step the scheduler based on validation loss
-    # scheduler.step(avg_val_loss)
+    scheduler.step(avg_val_loss)
 
     # Uncomment to print the current learning rate
-    # current_lr = scheduler.optimizer.param_groups[0]['lr']
+    current_lr = scheduler.optimizer.param_groups[0]['lr']
     # print(f"Learning Rate: {current_lr:.6f}")
 
 torch.save(model.state_dict(), 'asl_model.pth')
