@@ -155,40 +155,25 @@ function grabFrame1() {
 }
 
 async function sendData() {
-  try{
   const base64Image = canvasA.toDataURL('image/png')
 
-  const formattedData = new formattedData();
-  formattedData.append('data', JSON.stringify({ 'image': base64Image}));
-  let response = await fetch( "http://127.0.0.1:5000/upload_image", {
-      //url: '/upload_image',
-      method: 'POST',
-      body: formattedData,
-      headers: {
-        'Accept': 'application/json',
+  const formattedData = new FormData();
+  formattedData.append('data', JSON.stringify({ 'image': base64Image }));
 
+  // Make the AJAX request
+  $.ajax({
+      url: "http://localhost:5000/upload_image",
+      type: 'POST',
+      data: formattedData,
+      processData: false, // Prevent jQuery from automatically transforming the data into a query string
+      contentType: false, // Prevent jQuery from setting Content-Type, since FormData will do it
+      success: function(response) {
+          console.log("Success:", response);
       },
-      // success: function(response) {
-      //   console.log("success")  
-      //   //document.getElementById('output').innerHTML = response.result;
-      // },
-      // error: function(error) {
-      //     console.log(error);
-      // }
+      error: function(error){
+          console.log(error);
+      }
   });
-
-  if (response.ok) {
-    const result = await response.json();
-    console.log("Success:", result);
-    // Optionally, handle the result here
-    // document.getElementById('output').innerHTML = result.shape;
-  } else {
-      const error = await response.json();
-      console.error("Error uploading image:", error);
-  }
-  } catch (error) {
-  console.error("Fetch error:", error);
-  }
 }
 
 /*
